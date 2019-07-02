@@ -1,0 +1,91 @@
+### Path to keys
+PathToYourSshPublicKey="keys/\<"ssh key file name"\>.pub"
+PathToYourSshPrivateKey="keys/\<"ssh key private file name"\>"
+PathToYourApiPrivateKey="keys/\<"OCI API key private file name"\>.pem"
+
+### Authentication details
+export TF_VAR_tenancy_ocid="\<Tenancy OCID obtained from OCI account\>"
+export TF_VAR_user_ocid="\<User OCID obtained from OCI account\>"
+export TF_VAR_fingerprint="\<Fingerprint of the API Key uploaded on the user account on OCI\>"
+export TF_VAR_private_key_path=${PathToYourApiPrivateKey}
+
+### Compartment
+export TF_VAR_compartment_ocid="OCID of the compartment in which the Compute needs to be created."
+
+### Public/private keys used on the instances
+export TF_VAR_ssh_public_key=$(cat ${PathToYourSshPublicKey} 2>/dev/null)
+export TF_VAR_ssh_private_key=$(cat ${PathToYourSshPrivateKey} 2>/dev/null)
+export TF_VAR_api_private_key=$(cat ${PathToYourApiPrivateKey} 2>/dev/null)
+
+### Log
+# export TF_LOG=TRACE
+# export TF_LOG_PATH='./terraform.log'
+
+### Target Database
+export TF_VAR_target_db_admin_pw="\<DB Admin Password\>"
+export TF_VAR_target_db_ip="\<Private IP of the DBCS instance\>"
+export TF_VAR_target_db_ip_public="\<Public IP of the DB Server\>"
+export TF_VAR_target_db_srv_name="\<Service Name of the DB Server\>"
+export TF_VAR_target_db_name=`echo $TF_VAR_target_db_srv_name|awk -F. '{print $1}'`
+
+### ORDS Architecture Options
+
+## ARCHITECTURE - 1
+#      +-+-+-+-+-+-+-+               +-+-+-+-+-+-+-+               +-+-+-+-+-+-+-+
+#      +             +               +             +               +             +
+#      + APPLICATION +               +             +               +    APEX     +
+#      + GENERATING  +---------------+    ORDS     +---------------+      +      +
+#      + JSON CONTENT+               +   SERVER    +               +   ORACLE    +
+#      +             +               +             +               +  DATABASE   +
+#      +-+-+-+-+-+-+-+               +-+-+-+-+-+-+-+               +-+-+-+-+-+-+-+
+
+## ARCHITECTURE - 2
+#      +-+-+-+-+-+-+-+                                             +-+-+-+-+-+-+-+
+#      +             +                                             +             +
+#      + APPLICATION +                                             +ORDS and APEX+
+#      + GENERATING  +---------------------------------------------+      +      +
+#      + JSON CONTENT+                                             +   ORACLE    +
+#      +             +                                             +  DATABASE   +
+#      +-+-+-+-+-+-+-+                                             +-+-+-+-+-+-+-+
+
+
+# TF_VAR_ords_compute : For Architecture - 1 : set TF_VAR_ords_compute to 1, 
+#                            if ORDS needs to be installed on a separate Compute.
+#                       For Architecture - 2 : set TF_VAR_ords_compute to 0, 
+#                            if ORDS needs to be installed on the DB server Itself.
+export TF_VAR_ords_compute="1"
+
+# TF_VAR_region : us-phoenix-1 | us-ashburn-1 | eu-frankfurt-1 | uk-london-1 | ca-toronto-1
+export TF_VAR_region="\<Region name where you want to install the compute instance. You have the options mentioned above\>"
+
+# TF_VAR_AD : 1 | 2 | 3
+export TF_VAR_AD="\<Availability Domain to provision Compute Instance\>"
+
+# TF_VAR_InstanceOSVersion : 7.6 or Oracle Linunx 7.x version which is available in OCI
+export TF_VAR_InstanceOSVersion="\<7.6 or Oracle Linunx 7.x version which is available in OCI\>"
+
+# TF_VAR_URL_ORDS_file : Object Storage URL for ords.war
+export TF_VAR_URL_ORDS_file="\<Object Storage URL for ords.war\>"
+
+# TF_VAR_web_srv : 0 => Jetty
+export TF_VAR_web_srv=0
+
+export TF_VAR_com_port="\<Port for ORDS\>"
+
+export TF_VAR_ComputeDisplayName="\<ORDS Compute Instance Display Name\>"
+
+export TF_VAR_InstanceName="\<ORDS Compute Instance Name\>"
+
+export TF_VAR_InstanceShape="\<ORDS Compute Instance Shape\>"
+
+export TF_VAR_URL_APEX_file="\<Object Storage URL for apex.zip\>"
+
+
+# TF_VAR_APEX_install_mode : 0 => Full Environment mode, 1 => Runtime Environment mode
+export TF_VAR_APEX_install_mode=0
+
+export TF_VAR_subnet_ocid="\<Subnet OCID obtained from OCI\>"
+
+
+
+
